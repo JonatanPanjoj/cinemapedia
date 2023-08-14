@@ -3,12 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:cinemapedia/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/home/0',
   routes:[
     GoRoute(
-      path: '/',
+      path: '/home/:page',
       name: HomeScreen.name,
-      builder: (context, state) => const HomeScreen(),
+      builder: (context, state) {
+        final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
+        return  HomeScreen(pageIndex: pageIndex,);
+      },
       //Ponemos estos routes para que cuando hagamos deep-linking
       //podamos saber cual es el padre y poder regresar
       routes: [
@@ -23,6 +26,10 @@ final appRouter = GoRouter(
         ),
       ]
     ),
+    GoRoute(
+      path: '/',
+      redirect: (_,__) =>  '/home/0',
+    )
     
   ]
 );
